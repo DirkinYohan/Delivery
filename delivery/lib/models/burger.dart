@@ -7,6 +7,7 @@ class Burger {
   final String time;
   final String imagePath;
   final List<String> categories;
+  bool isFavorite;
 
   Burger({
     required this.id,
@@ -17,5 +18,6 @@ class Burger {
     required this.time,
     required this.imagePath,
     required this.categories,
+    this.isFavorite = false,
   });
 }

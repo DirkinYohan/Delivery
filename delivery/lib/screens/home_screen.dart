@@ -6,6 +6,9 @@ import 'package:delivery/screens/product_details_screen.dart';
 import 'package:delivery/services/data_service.dart';
 import 'package:delivery/screens/profile_screen.dart';
 import 'package:delivery/screens/chat_screen.dart';
+import 'package:delivery/screens/favorites_screen.dart';
+
+import 'package:delivery/screens/customization_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -186,7 +189,7 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       ),
       bottomNavigationBar: _buildBottomNav(context),
-      floatingActionButton: _buildFAB(),
+      floatingActionButton: _buildFAB(context),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
   }
@@ -213,12 +216,19 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             IconButton(
               icon: Image.asset(
-                'assets/icons/heart_filled.png',
+                'assets/icons/user.png',
                 width: 24,
                 height: 24,
                 color: Colors.white,
               ),
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const ProfileScreen(),
+                  ),
+                );
+              },
             ),
             const SizedBox(width: 48), // Spacer for FAB
             IconButton(
@@ -237,18 +247,19 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             IconButton(
               icon: Image.asset(
-                'assets/icons/user.png',
+                'assets/icons/heart_filled.png',
                 width: 24,
                 height: 24,
                 color: Colors.white,
               ),
-              onPressed: () {
-                Navigator.push(
+              onPressed: () async {
+                await Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => const ProfileScreen(),
+                    builder: (context) => const FavoritesScreen(),
                   ),
                 );
+                setState(() {}); // Refresh home when returning from favorites
               },
             ),
           ],
@@ -257,22 +268,34 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget _buildFAB() {
-    return Container(
-      width: 60,
-      height: 60,
-      decoration: const BoxDecoration(
-        color: AppColors.primary,
-        shape: BoxShape.circle,
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black26,
-            offset: Offset(0, 4),
-            blurRadius: 10,
+  Widget _buildFAB(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => CustomizationScreen(
+              burger: DataService.burgers[4], // Ultimate Experience Burger
+            ),
           ),
-        ],
+        );
+      },
+      child: Container(
+        width: 60,
+        height: 60,
+        decoration: const BoxDecoration(
+          color: AppColors.primary,
+          shape: BoxShape.circle,
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black26,
+              offset: Offset(0, 4),
+              blurRadius: 10,
+            ),
+          ],
+        ),
+        child: const Icon(Icons.add, color: Colors.white, size: 30),
       ),
-      child: const Icon(Icons.add, color: Colors.white, size: 30),
     );
   }
 }

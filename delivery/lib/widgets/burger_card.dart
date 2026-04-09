@@ -2,20 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:delivery/app_theme.dart';
 import 'package:delivery/models/burger.dart';
 
-class BurgerCard extends StatelessWidget {
+class BurgerCard extends StatefulWidget {
   final Burger burger;
   final VoidCallback? onTap;
 
-  const BurgerCard({
-    super.key,
-    required this.burger,
-    this.onTap,
-  });
+  const BurgerCard({super.key, required this.burger, this.onTap});
 
+  @override
+  State<BurgerCard> createState() => _BurgerCardState();
+}
+
+class _BurgerCardState extends State<BurgerCard> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: onTap,
+      onTap: widget.onTap,
       child: Container(
         decoration: BoxDecoration(
           color: AppColors.white,
@@ -25,40 +26,46 @@ class BurgerCard extends StatelessWidget {
               color: Colors.black.withValues(alpha: 0.15),
               offset: const Offset(0, 4),
               blurRadius: 19,
-            )
+            ),
           ],
         ),
         child: Stack(
           children: [
-            // Top Heart Icon
+            // Bottom Right Heart Icon
             Positioned(
-              top: 15,
-              left: 15,
-              child: Image.asset(
-                'assets/icons/heart_outline.png',
-                width: 24,
-                height: 24,
+              bottom: 15,
+              right: 15,
+              child: GestureDetector(
+                onTap: () {
+                  setState(() {
+                    widget.burger.isFavorite = !widget.burger.isFavorite;
+                  });
+                },
+                child: Image.asset(
+                  widget.burger.isFavorite
+                      ? 'assets/icons/heart_filled.png'
+                      : 'assets/icons/heart_outline.png',
+                  width: 24,
+                  height: 24,
+                  color: widget.burger.isFavorite ? AppColors.primary : null,
+                ),
               ),
             ),
-            
+
             // Rating
             Positioned(
               bottom: 15,
               left: 15,
               child: Row(
                 children: [
-                  Image.asset(
-                    'assets/icons/star.png',
-                    width: 16,
-                    height: 16,
-                  ),
+                  Image.asset('assets/icons/star.png', width: 16, height: 16),
                   const SizedBox(width: 4),
                   Text(
-                    burger.rating,
+                    widget.burger.rating,
                     style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                          fontWeight: FontWeight.bold,
-                          color: AppColors.textMain,
-                        ),
+                      fontWeight: FontWeight.bold,
+                      color: AppColors.textMain,
+                    ),
                   ),
                 ],
               ),
@@ -70,11 +77,11 @@ class BurgerCard extends StatelessWidget {
               left: 15,
               right: 15,
               child: Text(
-                burger.name,
+                widget.burger.name,
                 style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w500,
-                    ),
+                  fontSize: 14,
+                  fontWeight: FontWeight.w500,
+                ),
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
               ),
@@ -96,7 +103,7 @@ class BurgerCard extends StatelessWidget {
                     ),
                   ),
                   Image.asset(
-                    burger.imagePath,
+                    widget.burger.imagePath,
                     width: 100,
                     height: 100,
                     fit: BoxFit.contain,

@@ -20,26 +20,48 @@ class SuccessScreen extends StatelessWidget {
               BoxShadow(
                 color: Colors.black.withValues(alpha: 0.25),
                 blurRadius: 20,
-              )
+              ),
             ],
           ),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              const Icon(Icons.check_circle, color: Colors.green, size: 80),
-              const SizedBox(height: 20),
-              Text(
-                "Order Successful!",
-                style: Theme.of(context).textTheme.titleLarge,
-                textAlign: TextAlign.center,
+              // Círculo rojo sólido con checkmark blanco
+              Container(
+                width: 100,
+                height: 100,
+                decoration: const BoxDecoration(
+                  color: AppColors.primary,
+                  shape: BoxShape.circle,
+                ),
+                child: const Icon(
+                  Icons.check,
+                  color: Colors.white,
+                  size: 60,
+                ),
               ),
-              const SizedBox(height: 10),
+              const SizedBox(height: 35),
               const Text(
-                "Your delicious burger is on its way. Enjoy your meal!",
+                "Success !",
+                style: TextStyle(
+                  fontSize: 32,
+                  fontWeight: FontWeight.w900,
+                  color: AppColors.primary,
+                ),
                 textAlign: TextAlign.center,
-                style: TextStyle(color: AppColors.textSecondary),
               ),
-              const SizedBox(height: 30),
+              const SizedBox(height: 25),
+              const Text(
+                "Your payment was successful.\nA receipt for this purchase has\nbeen sent to your email.",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: Color(0xFF9E9E9E),
+                  fontSize: 18,
+                  height: 1.4,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+              const SizedBox(height: 45),
               ElevatedButton(
                 onPressed: () {
                   Navigator.pushAndRemoveUntil(
@@ -50,12 +72,19 @@ class SuccessScreen extends StatelessWidget {
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: AppColors.primary,
-                  minimumSize: const Size(double.infinity, 50),
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+                  minimumSize: const Size(double.infinity, 65),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(25),
+                  ),
+                  elevation: 5,
                 ),
                 child: const Text(
-                  "Go Home",
-                  style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                  "Go Back",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 22,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
             ],
